@@ -1,14 +1,27 @@
 <!doctype html>
 <html lang="en" data-theme="dark">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-KQTR53TG03"></script>
+<!-- Google tag (gtag.js), loaded on the first scroll, click, tap or key press -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
   gtag('config', 'G-KQTR53TG03');
+
+  (function () {
+    var events = ['scroll', 'click', 'touchstart', 'keydown'], loaded = false;
+    function loadGtag() {
+      if (loaded) return;
+      loaded = true;
+      events.forEach(function (e) { window.removeEventListener(e, loadGtag, true); });
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-KQTR53TG03';
+      document.head.appendChild(s);
+    }
+    events.forEach(function (e) { window.addEventListener(e, loadGtag, { capture: true, passive: true }); });
+  })();
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
