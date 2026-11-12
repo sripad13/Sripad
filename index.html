@@ -90,6 +90,11 @@
 .gform{width:100%;height:880px;border:0;border-radius:18px;background:transparent;display:block}
 @media (max-width:720px){.gform{height:1000px}}
 .contact-cta{display:flex;flex-direction:column;gap:14px;align-items:flex-start;justify-content:center}.contact-cta p{margin:0;color:var(--muted)}
+html.js .reveal{opacity:0;transform:translateY(22px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+html.js .reveal.in{opacity:1;transform:none}
+body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+.intro h2.big,.panel h2{letter-spacing:-.022em}
+@media (prefers-reduced-motion:reduce){html.js .reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
@@ -190,7 +195,7 @@
   <!-- content -->
   <main class="content">
 
-    <section class="panel intro" id="about">
+    <section class="panel reveal intro" id="about">
       <h2 class="big">Making stories work harder. <span class="tint">Building what’s next.</span></h2>
       <p class="desc">For 13 years, I have planned, written, and distributed content across sports, technology, lifestyle, and iGaming for media brands, startups, and agencies. I have grown social media accounts into the millions, led teams of writers, and turned search data into substantial web traffic.</p>
       <p class="desc">With the rise of AI, I began integrating automated agents to enhance my workflow by building dashboards, newsrooms, and MacBook apps, which have boosted productivity and significantly sped up time-consuming reporting and publishing processes.</p>
@@ -208,7 +213,7 @@
       </div>
     </section>
 
-    <section class="panel" id="services">
+    <section class="panel reveal" id="services">
       <h2>Strategy meets execution.</h2>
       <div class="svc-grid">
         <div class="svc"><div class="ic"><svg class="i"><use href="#i-cal"/></svg></div><h3>Content strategy</h3><p>Content pillars, calendars and workflows, plus the writers and editors to keep output fast and on-brand.</p></div>
@@ -220,7 +225,7 @@
       </div>
     </section>
 
-    <section class="panel" id="work">
+    <section class="panel reveal" id="work">
       <h2>Work with a measurable impact.</h2>
       <p class="lead">Six projects across media, tech and lifestyle brands. Each one opens a full case study: the brief, what I did and what came of it.</p>
       <div class="work">
@@ -263,7 +268,7 @@
       </div>
     </section>
 
-    <section class="panel" id="ai">
+    <section class="panel reveal" id="ai">
       <h2>Curiosity, made useful.</h2>
       <p class="lead">I build with Claude and ChatGPT, then ship on GitHub and Cloudflare. No dev team and no coding background, just a clear brief and fast iteration. Each one solves a problem from my own work.</p>
       <div class="work">
@@ -292,7 +297,7 @@
       </div>
     </section>
 
-    <section class="panel" id="interviews">
+    <section class="panel reveal" id="interviews">
       <h2>One-on-ones with Premier League greats</h2>
       <div class="work">
         <article class="case">
@@ -319,7 +324,7 @@
       </div>
     </section>
 
-    <section class="panel" id="skills">
+    <section class="panel reveal" id="skills">
       <h2>Good work is a process.</h2>
       <div class="skill-grid skillset">
         <div><h3>Content &amp; editorial</h3><div class="chips"><span>Content strategy</span><span>Copywriting</span><span>Editing</span><span>Reporting &amp; interviews</span><span>Writer-team management</span><span>Scriptwriting</span></div></div>
@@ -333,7 +338,7 @@
       </div>
     </section>
 
-    <section class="panel" id="writing">
+    <section class="panel reveal" id="writing">
       <h2>Where to read my work</h2>
       <p class="lead">Author pages on the sites I write for. Muck Rack has the full archive in one place.</p>
       <div class="posts">
@@ -347,7 +352,7 @@
       <p class="ghost"><b>Ghostwriting:</b> I've also written for WSN, published under the site's own bylines.</p>
     </section>
 
-    <section class="panel" id="contact">
+    <section class="panel reveal" id="contact">
       <h2>Let's work together</h2>
       <p class="lead">I'm open to full-time content and social media roles, in sport and beyond, and still take on freelance projects. Tell me what you're building.</p>
       <div class="contact-grid">
@@ -360,7 +365,7 @@
       </div>
     </section>
 
-    <section class="panel" id="faq">
+    <section class="panel reveal" id="faq">
       <h2>Frequently asked questions</h2>
       <div class="faq-list">
         <details class="faq-item"><summary>What kind of brands do you work with?</summary><p>I've worked across sports media, tech start-ups, lifestyle brands and iGaming. My content and social strategies adapt to whatever the audience cares about, whether it's Premier League transfers, salon bookings, or price-comparison tools.</p></details>
@@ -379,6 +384,17 @@
 <script>
 (function(){
   var root = document.documentElement;
+  root.classList.add('js');
+  if ('IntersectionObserver' in window) {
+    var revealIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting) { en.target.classList.add('in'); revealIO.unobserve(en.target); }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(function(el){ revealIO.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+  }
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // theme toggle (rail button on desktop, sheet button on mobile)
