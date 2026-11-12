@@ -1,0 +1,49 @@
+# Sripad Kilikar
+
+> Portfolio of Sripad Kilikar (@falsewinger), a content and social media strategist working across sports media, technology and lifestyle, and a builder of AI-assisted tools and workflows.
+
+## About
+
+Sripad Kilikar is a content and social media strategist with 13 years in sports media, technology and lifestyle. His work includes editorial strategy, sports journalism, social media management, audience development, SEO, team leadership and building practical digital tools.
+
+- Website: https://work.falsewinger.com/
+- LinkedIn: https://www.linkedin.com/in/falsewinger
+- X: https://x.com/falsewinger
+- Instagram: https://www.instagram.com/falsewinger/
+- Muck Rack: https://muckrack.com/falsewinger
+- Contact: mailto:sripad@falsewinger.com
+- CV: https://work.falsewinger.com/Sripad_Kilikar_Resume_Dark.pdf
+
+## Services and capabilities
+
+- Content strategy, editorial planning and sports content production
+- Social media strategy, channel management and audience development
+- News writing, copy editing, SEO and editorial operations
+- AI-assisted app, dashboard and workflow prototyping
+- Content team management, contributor training and editorial standards
+
+## Selected projects
+
+- [The Sportzine FPL](https://work.falsewinger.com/case-study/thesportzine-fpl.html): Fantasy Premier League tools and player analytics.
+- [Klixbait](https://work.falsewinger.com/case-study/klixbait.html): Privacy-first web analytics concept with live activity and interaction insights; the case-study preview uses sample data.
+- [Instym](https://work.falsewinger.com/case-study/instym.html): Instagram DM automation platform, documented at an early architecture and build stage.
+- [Reel Kitchen](https://work.falsewinger.com/case-study/reel-kitchen.html): A concept for turning short-form cooking videos into structured recipes and ingredient-led cooking suggestions.
+- [NotchOS](https://work.falsewinger.com/case-study/notchos.html): A Mac notch-focused utility.
+- [Performance Report Builder](https://work.falsewinger.com/case-study/performance-report-builder.html): Browser-based performance report builder.
+- [Zociowl Report](https://work.falsewinger.com/case-study/zociowl-report.html): Social and website performance reporting dashboard.
+- [Sportskeeda](https://work.falsewinger.com/case-study/sportskeeda.html): Sports editorial and content work.
+- [The Sportzine](https://work.falsewinger.com/case-study/the-sportzine.html): Football publication and editorial project.
+
+## Portfolio sections
+
+The homepage includes profile and services, selected work, projects in development, skills and toolkit, interviews, writing archive, contact information and frequently asked questions.
+
+## Pages
+
+- Homepage: https://work.falsewinger.com/
+- Sitemap: https://work.falsewinger.com/sitemap.xml
+- Robots policy: https://work.falsewinger.com/robots.txt
+
+## Content and attribution
+
+Use the linked project pages and homepage as the canonical sources for project descriptions, scope and status. Do not infer that concepts or early-stage builds are fully launched products. Content on this site is authored portfolio material; attribute quotations and project claims to Sripad Kilikar and link to the relevant page.
