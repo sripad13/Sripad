@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Klixbait · privacy-first web analytics by Sripad</title>
+<meta name="description" content="Klixbait is privacy-first web analytics with live visitor activity and click and scroll heatmaps. It is an early build.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: sticky bar, one hero card with a facts strip, then two-column feature cards and a spec grid */
+:root{
+  color-scheme:dark;
+  --bg:#101012;--bg2:#151518;--card:#1c1c20;--card2:#232328;
+  --text:#e9e6e1;--head:#f7f4ef;--muted:#a7a19b;--line:#39363a;
+  --accent:#c8ff00;--accent-soft:rgba(200,255,0,.13);--accent-ink:#111407;
+  --shadow:0 22px 70px rgba(0,0,0,.24);
+  --display:'Barlow Condensed',Impact,'Arial Narrow',sans-serif;
+  --body:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'DM Mono',ui-monospace,Menlo,Consolas,monospace;
+  --label:'Manrope','DM Sans',system-ui,sans-serif;
+  --n-red:#E5736A;--n-green:#5FBF8F;--n-amber:#E8A45C;--n-blue:#8FA3F5;
+}
+:root[data-theme="light"]{
+  color-scheme:light;
+  --bg:#f1eee8;--bg2:#e9e5dd;--card:#fbfaf7;--card2:#f3f0ea;
+  --text:#373330;--head:#181615;--muted:#6f6964;--line:#d8d1c8;
+  --accent:#587c00;--accent-soft:rgba(99,139,0,.11);--accent-ink:#fffdf5;
+  --shadow:0 18px 50px rgba(65,48,39,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.7 var(--body);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;transition:background .25s,color .25s}
+body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 90% 8%,var(--accent-soft),transparent 34%),linear-gradient(135deg,var(--bg),var(--bg2))}
+a{color:inherit;text-decoration:none}
+a:hover{color:var(--accent)}
+img{display:block;max-width:100%}
+button{font:inherit}
+h1,h2,h3,p{margin-top:0}
+h1,h2,h3{color:var(--head);text-wrap:balance}
+code{font:12.5px var(--mono);background:var(--card2);border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.skip{position:absolute;left:-9999px;top:0}.skip:focus{left:12px;top:12px;z-index:100;background:var(--card);padding:8px 12px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+/* top bar */
+.bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:58px}
+.brand{display:flex;align-items:center;gap:10px;font:700 22px/1 var(--display);letter-spacing:.02em;text-transform:uppercase;color:var(--head)}
+.brand img{height:24px;width:auto}
+.brand{white-space:nowrap}
+@media(max-width:720px){.brand{font-size:19px}}
+.bar nav{display:flex;align-items:center;gap:20px}
+.bar nav a{font:800 11px var(--label);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.bar nav a:hover{color:var(--accent)}
+.theme-btn{width:36px;height:36px;border:1px solid var(--line);background:transparent;border-radius:50%;display:grid;place-items:center;color:var(--muted);cursor:pointer;flex:none}
+.theme-btn:hover{color:var(--head);background:var(--card2)}
+.theme-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.theme-btn .sun{display:none}
+:root[data-theme="light"] .theme-btn .sun{display:block}
+:root[data-theme="light"] .theme-btn .moon{display:none}
+
+/* hero */
+.hero{margin-top:28px;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:clamp(28px,4.6vw,58px);position:relative;overflow:hidden;box-shadow:var(--shadow);animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.hero:after{content:"";position:absolute;width:290px;height:290px;border:1px solid var(--line);border-radius:50%;right:-150px;top:-150px;pointer-events:none}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.hero .mascot{height:96px;width:auto;margin-bottom:22px}
+.eyebrow,.kicker{font:800 11px var(--label);text-transform:uppercase;letter-spacing:.06em;color:var(--accent)}
+.hero h1{font:800 clamp(46px,7.2vw,92px)/.86 var(--display);letter-spacing:-.02em;text-transform:uppercase;max-width:900px;margin:22px 0 24px;position:relative;z-index:1}
+.hero h1 span{color:var(--accent)}
+.lede{font-size:16px;color:var(--muted);max-width:680px;margin:0}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:24px}
+.tags span{font:800 11px var(--label);border:1px solid var(--line);padding:6px 10px;border-radius:3px;color:var(--text)}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:800 12px var(--label);letter-spacing:.04em;text-transform:uppercase;padding:13px 20px;border-radius:999px;background:var(--accent);color:var(--accent-ink);border:1px solid var(--accent)}
+.btn:hover{color:var(--accent-ink);filter:brightness(1.06)}
+.btn.ghost{background:transparent;color:var(--head);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent);filter:none}
+.facts{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));border-top:1px solid var(--line);margin-top:36px;padding-top:24px}
+.fact{padding:0 18px;border-left:1px solid var(--line);min-width:0}
+.fact:first-child{padding-left:0;border-left:0}
+.fact b{display:block;font:700 clamp(26px,3.2vw,42px)/.95 var(--display);color:var(--head);letter-spacing:-.01em;text-transform:uppercase;overflow-wrap:anywhere}
+.fact span{display:block;margin-top:8px;font:10px/1.45 var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.heroshot{margin-top:34px}
+
+/* sections */
+section{margin-top:76px;scroll-margin-top:80px}
+.head{margin-bottom:24px}
+.head h2{font:700 clamp(38px,5.2vw,62px)/.92 var(--display);letter-spacing:-.015em;text-transform:uppercase;margin:8px 0 0}
+.head p{max-width:640px;color:var(--muted);font-size:14px;margin:14px 0 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grid>.card:last-child:nth-child(odd){grid-column:1/-1}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;min-width:0;transition:border-color .25s,transform .35s cubic-bezier(.2,.7,.2,1)}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card h3{font:700 24px/1.02 var(--display);letter-spacing:.015em;text-transform:uppercase;margin:0 0 8px}
+.card p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.6}
+.card ul{margin:12px 0 0;padding:0 0 0 18px;font-size:13.5px;line-height:1.6}
+.card li{margin:3px 0}
+.note{margin:14px 0 0!important;padding-top:12px;border-top:1px solid var(--line);font-size:13px!important;color:var(--text)!important}
+.note b{color:var(--head);font-weight:600}
+.pill-status{display:inline-block;font:800 10px var(--label);letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin-bottom:10px}
+.pill-status.done{color:var(--accent);border-color:var(--accent)}
+
+/* illustrative demos inside cards */
+.demo{min-height:108px;display:flex;align-items:center;justify-content:center;margin:0 0 18px;padding:16px;border-radius:12px;background:var(--bg2);border:1px solid var(--line);overflow:hidden}
+.d-labels{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.d-labels span{font:10px var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 10px;background:var(--card)}
+.d-labels span.on{color:var(--accent-ink);background:var(--accent);border-color:var(--accent)}
+.d-bars{display:grid;gap:7px;width:min(100%,300px)}
+.d-bars div{display:grid;grid-template-columns:86px 1fr;gap:10px;align-items:center;font:10px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.d-bars i{display:block;height:9px;border-radius:99px;background:var(--accent)}
+.d-bars div:nth-child(n+2) i{opacity:.62}.d-bars div:nth-child(n+3) i{opacity:.38}.d-bars div:nth-child(n+4) i{opacity:.22}
+.d-flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center}
+.d-flow span{font:800 11px var(--label);padding:7px 11px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--text);white-space:nowrap}
+.d-flow span.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.d-flow i{width:14px;height:1px;background:var(--muted);flex:none}
+.d-kv{display:grid;gap:0;width:min(100%,320px)}
+.d-kv div{display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid var(--line);font:11px var(--mono);letter-spacing:.04em;color:var(--muted)}
+.d-kv div:last-child{border-bottom:0}
+.d-kv b{color:var(--head);font-weight:500;text-align:right}
+.d-big{text-align:center}
+.d-big b{display:block;font:800 40px/.9 var(--display);text-transform:uppercase;color:var(--head);letter-spacing:-.01em}
+.d-big span{display:block;margin-top:8px;font:10px var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+
+/* NotchOS hardware mock-ups stay dark in both themes, like the notch itself */
+.dark{background:#000;border-color:#1F1F23;color:#F2F2F3}
+.notch{margin:0 auto;width:min(560px,100%);height:150px;background:#000;border:1px solid #1F1F23;border-radius:0 0 26px 26px;position:relative;overflow:hidden;color:#F2F2F3;font-family:var(--body)}
+.notch .chip{position:absolute;top:24px;font-size:15px;font-weight:600;color:var(--n-amber)}
+.notch .l{left:30px}.notch .r{right:30px;font-variant-numeric:tabular-nums}
+.notch .cut{position:absolute;left:50%;top:0;transform:translateX(-50%);width:190px;height:34px;background:#000;border:1px solid #1F1F23;border-top:0;border-radius:0 0 16px 16px}
+.notch .caption{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:12px;color:#8B8B92}
+.tpill{display:flex;align-items:center;gap:16px;padding:8px 8px 8px 22px;border-radius:999px;background:#000;position:relative}
+.tpill:before{content:"";position:absolute;inset:-3px;border-radius:999px;padding:3px;background:conic-gradient(var(--n-red) 0 60%,#2A2A2F 60% 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.tpill .t{font:600 34px/1 var(--body);letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:#F2F2F3}
+.tpill .b{width:44px;height:44px;border-radius:50%;background:#1C1C20;display:flex;align-items:center;justify-content:center}
+.tpill .b:after{content:"";width:9px;height:12px;border-left:3px solid #F2F2F3;border-right:3px solid #F2F2F3;border-radius:1px}
+.popup{width:240px;max-width:100%;background:#000;border:1px solid #1F1F23;border-radius:18px;padding:14px 16px;color:#F2F2F3;font-family:var(--body);line-height:1.4}
+.popup .k{font-size:10px;letter-spacing:.08em;color:var(--n-red);font-weight:600}
+.popup .big{font-size:30px;font-weight:700;color:var(--n-red);letter-spacing:-.03em;line-height:1.1;margin-top:2px}
+.popup .pbar{height:3px;background:#26262B;border-radius:2px;margin:10px 0 8px;overflow:hidden}
+.popup .pbar i{display:block;height:100%;width:20%;background:var(--n-red)}
+.popup .d{font-size:12px;color:#8B8B92}
+.glass{width:260px;max-width:100%;height:76px;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;gap:12px;font:600 16px var(--body);color:#F2F2F3}
+.glass i{width:10px;height:10px;border-radius:50%;background:var(--n-blue)}
+.mini{font-size:13px;color:#C9C9CE;font-family:var(--body);text-align:center}
+
+/* build specs */
+.specs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.spec{border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--card);min-width:0}
+.spec b{display:block;font:700 22px/1.05 var(--display);letter-spacing:.015em;text-transform:uppercase;color:var(--head);margin-bottom:6px}
+.spec span{font-size:13px;color:var(--muted);line-height:1.55;display:block}
+.closing{margin:28px 0 0;max-width:700px;font-size:14px;color:var(--text)}
+.callout{background:var(--accent);color:var(--accent-ink);border-radius:18px;padding:26px 28px;display:grid;gap:8px}
+.callout .kicker{color:inherit;opacity:.72}
+.callout p{margin:0;font-size:15px;line-height:1.55;max-width:760px;font-weight:500}
+
+footer{margin-top:80px;border-top:1px solid var(--line);padding:22px 0 36px;color:var(--muted);font:10px var(--mono);letter-spacing:.08em;text-transform:uppercase}
+footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+footer a{color:var(--muted)}footer a:hover{color:var(--accent)}
+
+@media(max-width:860px){.specs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:720px){
+  .wrap{padding:0 16px}
+  .bar nav a.sec{display:none}
+  .hero{margin-top:16px;padding:26px 20px}
+  .facts{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:20px}
+  .fact{padding:0 12px}
+  .fact:nth-child(odd){padding-left:0;border-left:0}
+  section{margin-top:56px}
+  .grid,.specs{grid-template-columns:1fr}
+  .d-flow i{width:8px}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#top">Skip to content</a>
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#top">Klixbait</a>
+    <nav aria-label="Sections">
+      <a class="sec" href="#features">What’s built</a><a class="sec" href="#privacy">Privacy</a><a class="sec" href="#status">Status</a><a class="sec" href="#build">How it’s built</a>
+      <a href="https://work.falsewinger.com/">Portfolio</a>
+      <button type="button" class="theme-btn" id="theme-toggle" aria-label="Switch between light and dark theme"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+  <div class="hero">
+    
+    <div class="eyebrow">Privacy-first web analytics · early build</div>
+    <h1>Web analytics <span>without the cookies.</span></h1>
+    <p class="lede">Klixbait is web analytics built around privacy, with live visitor activity and click and scroll heatmaps as core features. It’s an early build: the browser tracker, the collection endpoint and a dashboard preview exist.</p>
+    <div class="tags"><span>TypeScript</span><span>React</span><span>Cloudflare Workers</span><span>Cloudflare Queues</span><span>pnpm workspace</span></div>
+    <div class="actions"><a class="btn ghost" href="https://work.falsewinger.com/">Back to portfolio</a></div>
+    <div class="facts" style="--n:3"><div class="fact"><b>0</b><span>Cookies in default mode</span></div><div class="fact"><b>92</b><span>Lines in the browser tracker</span></div><div class="fact"><b>5</b><span>Milestones on the roadmap</span></div></div>
+    
+  </div>
+
+  <section id="features">
+    <div class="head"><span class="kicker">What’s built</span><h2>The first three pieces</h2><p>The tracker, the collection endpoint and a preview of the dashboard are in the code today.</p></div>
+    <div class="grid">
+      <article class="card">
+        <div class="demo" aria-hidden="true"><div class="d-labels"><span>pageview</span><span>custom</span></div></div><span class="pill-status done">Built</span>
+        <h3>Browser tracker</h3>
+        <p>A small tracker with no dependencies that records page views and custom events, and sends anything left over when the page closes.</p><p class="note"><b>How it works:</b> Each visit gets a random ID that lasts only for the browser session, so a visitor can’t be followed from one visit to the next.</p>
+      </article>
+      <article class="card">
+        <div class="demo" aria-hidden="true"><div class="d-flow"><span>Tracker</span><i></i><span class="on">Worker</span><i></i><span>Queue</span></div></div><span class="pill-status done">Built</span>
+        <h3>Collection at the edge</h3>
+        <p>A Cloudflare Worker receives events, validates each one, checks where it came from and places it on a queue.</p>
+      </article>
+      <article class="card">
+        <div class="demo" aria-hidden="true"><div class="d-bars"><div><span>Top pages</span><i style="width:88%"></i></div><div><span>Sources</span><i style="width:60%"></i></div><div><span>Live visitors</span><i style="width:36%"></i></div></div></div><span class="pill-status done">Preview</span>
+        <h3>Dashboard preview</h3>
+        <p>A responsive dashboard with visitors, page views, live visitors, traffic over time, top pages and traffic sources.</p><p class="note"><b>How it works:</b> The preview runs on sample data only. It isn’t wired to real events yet.</p>
+      </article>
+      <article class="card">
+        <div class="demo" aria-hidden="true"><div class="d-labels"><span>Click position</span><span>Scroll depth</span><span>Device class</span></div></div><span class="pill-status">Planned</span>
+        <h3>Heatmaps</h3>
+        <p>Click and scroll heatmaps are a core part of the plan. The design records where a click landed on the page, never what was typed or shown.</p>
+      </article>
+    </div>
+  </section>
+  <section id="privacy">
+    <div class="head"><span class="kicker">Privacy</span><h2>The rules it’s built on</h2><p>These principles are written into the project and shape every part of it.</p></div>
+    <div class="grid">
+      <article class="card">
+        
+        <h3>No cookies by default</h3>
+        <p>Collection is cookieless by default, with no fingerprinting and no identity that persists across sessions.</p>
+      </article>
+      <article class="card">
+        
+        <h3>Never the content</h3>
+        <p>Form values, passwords, keystrokes and raw page text are never collected.</p>
+      </article>
+      <article class="card">
+        
+        <h3>Advanced tracking is opt-in</h3>
+        <p>Anything beyond the default has to be switched on deliberately and respect consent.</p>
+      </article>
+      <article class="card">
+        
+        <h3>Data kept apart</h3>
+        <p>Customer details are stored separately from the high-volume event data.</p>
+      </article>
+    </div>
+  </section>
+  <section id="status">
+    <div class="callout"><span class="kicker">Where it stands</span><p>Klixbait is an early foundation and isn’t production-ready. Still to come: processing the queue, storing events, wiring real data into the dashboard, heatmaps and production hardening.</p></div>
+  </section>
+
+  <section id="build">
+    <div class="head"><span class="kicker">Under the hood</span><h2>How it’s built</h2></div>
+    <div class="specs"><div class="spec"><b>TypeScript</b><span>One repository with three packages</span></div><div class="spec"><b>Browser SDK</b><span>Dependency-free, and follows page changes in single-page apps</span></div><div class="spec"><b>Cloudflare Workers</b><span>The public collection endpoint</span></div><div class="spec"><b>Cloudflare Queues</b><span>Holds events for processing</span></div><div class="spec"><b>React</b><span>The dashboard preview</span></div><div class="spec"><b>Planned storage</b><span>A column store for events, kept apart from account data</span></div></div>
+    <p class="closing">The roadmap has five milestones: define the event format and tracker, validate and queue events, add a processor and analytics store, build the dashboard and heatmaps, then add consent controls, export and billing.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Klixbait · a project by Sripad</span>
+    <a href="https://work.falsewinger.com/">work.falsewinger.com</a>
+  </div>
+</footer>
+<script>
+(function(){
+  var root=document.documentElement,btn=document.getElementById('theme-toggle');
+  try{var s=localStorage.getItem('sk-theme');if(s==='light'||s==='dark')root.dataset.theme=s}catch(e){}
+  btn.addEventListener('click',function(){
+    var next=root.dataset.theme==='light'?'dark':'light';
+    root.dataset.theme=next;
+    try{localStorage.setItem('sk-theme',next)}catch(e){}
+  });
+})();
+</script>
+</body>
+</html>
