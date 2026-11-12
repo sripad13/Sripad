@@ -358,6 +358,7 @@
             <div><label for="f-name">Your name</label><input id="f-name" name="name" autocomplete="name" required></div>
             <div><label for="f-org">Company or publication</label><input id="f-org" name="org" autocomplete="organization"></div>
           </div>
+          <div><label for="f-email">Your email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
           <div><label for="f-msg">Tell me about your project</label><textarea id="f-msg" name="msg" required></textarea></div>
           <button class="btn" type="submit"><svg class="i"><use href="#i-send"/></svg>Let's talk</button>
           <p class="form-note" id="form-note">Your message goes straight to my inbox.</p>
@@ -438,26 +439,28 @@
   // contact form: sends to a Google Sheet when SHEET_ENDPOINT is set, otherwise opens email
   var SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyITDl8X_VUSClo1WVgj9TrD9YnN0EpyRYW70pfzIEuU-SapcxAdAGSpflquUvxpG4eng/exec';
   var form = document.getElementById('mailform'), note = document.getElementById('form-note');
-  function openMail(name, org, msg){
+  function openMail(name, email, org, msg){
     var subject = 'Project enquiry from ' + name + (org ? ' (' + org + ')' : '');
-    location.href = 'mailto:sripad@falsewinger.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(msg + '\n\n' + name);
+    location.href = 'mailto:sripad@falsewinger.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(msg + '\n\n' + name + ' <' + email + '>');
   }
   form.addEventListener('submit', function(ev){
     ev.preventDefault();
-    var f = ev.target, name = f.name.value.trim(), org = f.org.value.trim(), msg = f.msg.value.trim();
-    if (!name || !msg) { (name ? f.msg : f.name).focus(); return; }
-    if (!SHEET_ENDPOINT) { openMail(name, org, msg); return; }
+    var f = ev.target, name = f.name.value.trim(), email = f.email.value.trim(), org = f.org.value.trim(), msg = f.msg.value.trim();
+    if (!name) { f.name.focus(); return; }
+    if (!email || !f.email.checkValidity()) { f.email.focus(); return; }
+    if (!msg) { f.msg.focus(); return; }
+    if (!SHEET_ENDPOINT) { openMail(name, email, org, msg); return; }
     note.textContent = 'Sending…';
     fetch(SHEET_ENDPOINT, {
       method: 'POST', mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ name: name, org: org, msg: msg, page: location.href, time: new Date().toISOString() })
+      body: JSON.stringify({ name: name, email: email, org: org, msg: msg, page: location.href, time: new Date().toISOString() })
     }).then(function(){
       f.reset();
       note.textContent = 'Thanks, your message has been sent.';
     }).catch(function(){
       note.textContent = 'Something went wrong. Opening your email app instead.';
-      openMail(name, org, msg);
+      openMail(name, email, org, msg);
     });
   });
 })();
