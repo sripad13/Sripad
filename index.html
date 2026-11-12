@@ -87,6 +87,8 @@
 .faq-item[open] summary::after{transform:rotate(45deg)}
 .faq-item p{margin:10px 0 0}
 .intro h2.big{display:block;background:none;color:var(--head);padding:0;border-radius:0;transform:none;margin-left:0}
+.rail .talk{width:auto;height:34px;padding:0 16px;border-radius:999px;display:inline-flex;align-items:center;background:var(--accent);color:var(--accent-ink);font-size:13px;font-weight:600;font-family:"Plus Jakarta Sans",system-ui,sans-serif;white-space:nowrap;flex:none}
+.rail .talk:hover{color:var(--accent-ink);filter:brightness(1.07)}
 </style>
 </head>
 <body>
@@ -145,6 +147,7 @@
     <button class="theme-btn" type="button" aria-label="Switch between light and dark theme">
       <svg class="i moon"><use href="#i-moon"/></svg><svg class="i sun"><use href="#i-sun"/></svg>
     </button>
+    <a class="talk" href="#contact">Let's talk</a>
   </nav>
 
 
@@ -358,7 +361,7 @@
             <div><label for="f-org">Company or publication</label><input id="f-org" name="org" autocomplete="organization"></div>
           </div>
           <div><label for="f-msg">Tell me about your project</label><textarea id="f-msg" name="msg" required></textarea></div>
-          <button class="btn" type="submit"><svg class="i"><use href="#i-send"/></svg>Open in email</button>
+          <button class="btn" type="submit"><svg class="i"><use href="#i-send"/></svg>Let's talk</button>
           <p class="form-note" id="form-note">This opens your email app with the message filled in.</p>
         </form>
       </div>
