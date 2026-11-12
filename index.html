@@ -228,7 +228,7 @@
         </a>
         <a class="case" href="/case-study/sportskeeda">
           <div class="meta"><span>Sportskeeda</span><span class="yr">2016–2018</span></div>
-          <div class="num">3M+<small>Main Facebook page, plus 1.5M+ on Sportskeeda Football</small></div>
+          <div class="num">4M+<small>Main Facebook page, plus 1.5M+ on Sportskeeda Football</small></div>
           <h3>Growing Sportskeeda's social audience</h3><p>Monthly content calendars, trend-led topic planning, a freelance writer pool and big-event coverage across social, web and app.</p>
           <span class="read">Read case study</span>
         </a>
@@ -359,7 +359,7 @@
           </div>
           <div><label for="f-msg">What do you need?</label><textarea id="f-msg" name="msg" required></textarea></div>
           <button class="btn" type="submit"><svg class="i"><use href="#i-send"/></svg>Open in email</button>
-          <p class="form-note">This opens your email app with the message filled in.</p>
+          <p class="form-note" id="form-note">This opens your email app with the message filled in.</p>
         </form>
       </div>
     </section>
@@ -434,13 +434,30 @@
     }).observe(card);
   }
 
-  // mailto form
-  document.getElementById('mailform').addEventListener('submit', function(ev){
+  // contact form: sends to a Google Sheet when SHEET_ENDPOINT is set, otherwise opens email
+  var SHEET_ENDPOINT = '';
+  var form = document.getElementById('mailform'), note = document.getElementById('form-note');
+  function openMail(name, org, msg){
+    var subject = 'Project enquiry from ' + name + (org ? ' (' + org + ')' : '');
+    location.href = 'mailto:sripad@falsewinger.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(msg + '\n\n' + name);
+  }
+  form.addEventListener('submit', function(ev){
     ev.preventDefault();
     var f = ev.target, name = f.name.value.trim(), org = f.org.value.trim(), msg = f.msg.value.trim();
     if (!name || !msg) { (name ? f.msg : f.name).focus(); return; }
-    var subject = 'Project enquiry from ' + name + (org ? ' (' + org + ')' : '');
-    location.href = 'mailto:sripad@falsewinger.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(msg + '\n\n' + name);
+    if (!SHEET_ENDPOINT) { openMail(name, org, msg); return; }
+    note.textContent = 'Sending…';
+    fetch(SHEET_ENDPOINT, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ name: name, org: org, msg: msg, page: location.href, time: new Date().toISOString() })
+    }).then(function(){
+      f.reset();
+      note.textContent = 'Thanks, your message has been sent.';
+    }).catch(function(){
+      note.textContent = 'Something went wrong. Opening your email app instead.';
+      openMail(name, org, msg);
+    });
   });
 })();
 </script>
