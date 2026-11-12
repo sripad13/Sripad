@@ -231,7 +231,7 @@
         </a>
         <a class="case" href="/case-study/sportskeeda">
           <div class="meta"><span>Sportskeeda</span><span class="yr">2016–2018</span></div>
-          <div class="num">4M+<small>Main Facebook page, plus 1.5M+ on Sportskeeda Football</small></div>
+          <div class="num">4M+<small>Followers gained on Sportskeeda</small></div>
           <h3>Growing Sportskeeda's social audience</h3><p>Monthly content calendars, trend-led topic planning, a freelance writer pool and big-event coverage across social, web and app.</p>
           <span class="read">Read case study</span>
         </a>
@@ -362,7 +362,7 @@
           </div>
           <div><label for="f-msg">Tell me about your project</label><textarea id="f-msg" name="msg" required></textarea></div>
           <button class="btn" type="submit"><svg class="i"><use href="#i-send"/></svg>Let's talk</button>
-          <p class="form-note" id="form-note">This opens your email app with the message filled in.</p>
+          <p class="form-note" id="form-note">Your message goes straight to my inbox.</p>
         </form>
       </div>
     </section>
@@ -438,7 +438,7 @@
   }
 
   // contact form: sends to a Google Sheet when SHEET_ENDPOINT is set, otherwise opens email
-  var SHEET_ENDPOINT = '';
+  var SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx5QqWfwme_5jGP8GGAqhXupUo3zuDOjCnSaS2PQsuJJabPskxvtSp_jWto1xiOI7O2ng/exec';
   var form = document.getElementById('mailform'), note = document.getElementById('form-note');
   function openMail(name, org, msg){
     var subject = 'Project enquiry from ' + name + (org ? ' (' + org + ')' : '');
