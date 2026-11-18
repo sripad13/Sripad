@@ -187,7 +187,7 @@
     </div>
   </div>
   <div class="profile-actions">
-    <a href="https://work.falsewinger.com/Sripad_Kilikar_Resume_Dark.pdf" target="_blank" rel="noopener"><svg class="i"><use href="#i-down"/></svg>Download CV</a>
+    <a href="#cv-dialog" data-cv-open><svg class="i"><use href="#i-down"/></svg>Download CV</a>
     <a href="#contact"><svg class="i"><use href="#i-send"/></svg>Contact me</a>
   </div>
 </aside>
@@ -349,8 +349,47 @@
   </div>
 </section>
 
-<footer class="site-footer"><span>© 2026 Sripad Kilikar · work.falsewinger.com</span><nav><a href="https://www.linkedin.com/in/falsewinger">LinkedIn</a><a href="https://x.com/falsewinger">X</a><a href="https://www.instagram.com/falsewinger/">Instagram</a><a href="https://muckrack.com/falsewinger">Muck Rack</a><a href="https://work.falsewinger.com/Sripad_Kilikar_Resume_Dark.pdf">CV (PDF)</a></nav></footer>
+<footer class="site-footer"><span>© 2026 Sripad Kilikar · work.falsewinger.com</span><nav><a href="https://www.linkedin.com/in/falsewinger">LinkedIn</a><a href="https://x.com/falsewinger">X</a><a href="https://www.instagram.com/falsewinger/">Instagram</a><a href="https://muckrack.com/falsewinger">Muck Rack</a><a href="#cv-dialog" data-cv-open>CV (PDF)</a></nav></footer>
 </main>
+
+<dialog id="cv-dialog" class="cv-dialog" aria-labelledby="cv-title">
+  <div class="cv-box">
+    <div class="cv-head"><h2 id="cv-title">Choose a resume</h2><button type="button" class="cv-close" data-cv-close aria-label="Close">&times;</button></div>
+    <p class="cv-lede">Same resume, two looks. Pick the one you need.</p>
+    <a class="cv-opt" href="Sripad_Kilikar_Resume_Print.pdf" download><b>Light themed, print friendly</b><span>White background with a plain layout. Best for printing.</span></a>
+    <a class="cv-opt" href="Sripad_Kilikar_Resume_Dark.pdf" download><b>Dark themed, easy on the eye</b><span>Dark background with light text. Best on screen.</span></a>
+  </div>
+</dialog>
+<style>
+.cv-dialog{padding:0;border:0;background:transparent;color:var(--text);width:min(440px,calc(100% - 32px));max-width:none;margin:auto}
+.cv-dialog::backdrop{background:rgba(0,0,0,.6);backdrop-filter:blur(4px)}
+.cv-box{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:var(--shadow)}
+.cv-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.cv-head h2{font:700 26px/1.1 var(--display);text-transform:uppercase;letter-spacing:.02em;margin:0;color:var(--head)}
+.cv-close{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:22px;line-height:1;cursor:pointer;display:grid;place-items:center}
+.cv-close:hover{color:var(--accent);border-color:var(--accent)}
+.cv-lede{margin:8px 0 16px;color:var(--muted);font-size:14px}
+.cv-opt{display:block;margin-top:10px;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:var(--card2);color:var(--text);transition:border-color .2s}
+.cv-opt:hover,.cv-opt:focus-visible{border-color:var(--accent);color:var(--text)}
+.cv-opt b{display:block;font:700 17px/1.2 var(--body);color:var(--head);margin-bottom:4px}
+.cv-opt span{display:block;font-size:13px;color:var(--muted);line-height:1.5}
+</style>
+<script>
+(function(){
+  var d=document.getElementById('cv-dialog');
+  if(!d)return;
+  document.querySelectorAll('[data-cv-open]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      if(typeof d.showModal==='function'){d.showModal()}
+      else{window.open('Sripad_Kilikar_Resume_Dark.pdf','_blank','noopener')}
+    });
+  });
+  d.querySelector('[data-cv-close]').addEventListener('click',function(){d.close()});
+  d.addEventListener('click',function(e){if(e.target===d)d.close()});
+  d.querySelectorAll('.cv-opt').forEach(function(a){a.addEventListener('click',function(){d.close()})});
+})();
+</script>
 </div>
 
 <nav class="rail" aria-label="Section navigation">
