@@ -28,7 +28,7 @@ Sripad Kilikar is a content and social media strategist with 13 years in sports 
 - [Klixbait](https://work.falsewinger.com/case-study/klixbait.html): Privacy-first web analytics concept with live activity and interaction insights; the case-study preview uses sample data.
 - [Instym](https://work.falsewinger.com/case-study/instym.html): Instagram DM automation platform, documented at an early architecture and build stage.
 - [Reel Kitchen](https://work.falsewinger.com/case-study/reel-kitchen.html): A concept for turning short-form cooking videos into structured recipes and ingredient-led cooking suggestions.
-- [NotchOS](https://work.falsewinger.com/case-study/notchos.html): A Mac notch-focused utility.
+- [Rockos](https://work.falsewinger.com/case-study/notchos.html): A Mac notch-focused utility.
 - [Performance Report Builder](https://work.falsewinger.com/case-study/performance-report-builder.html): Browser-based performance report builder.
 - [Zociowl Report](https://work.falsewinger.com/case-study/zociowl-report.html): Social and website performance reporting dashboard.
 - [Sportskeeda](https://work.falsewinger.com/case-study/sportskeeda.html): Sports editorial and content work.
