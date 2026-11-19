@@ -359,8 +359,8 @@
   <div class="cv-box">
     <div class="cv-head"><h2 id="cv-title">Choose a resume</h2><button type="button" class="cv-close" data-cv-close aria-label="Close">&times;</button></div>
     <p class="cv-lede">Same resume, two looks. Pick the one you need.</p>
-    <a class="cv-opt" href="Sripad_Kilikar_Resume_Print.pdf" download><b>Light themed, print friendly</b><span>White background with a plain layout. Best for printing.</span></a>
-    <a class="cv-opt" href="Sripad_Kilikar_Resume_Dark.pdf" download><b>Dark themed, easy on the eye</b><span>Dark background with light text. Best on screen.</span></a>
+    <a class="cv-opt" href="Sripad_Kilikar_Resume_Print.pdf" data-resume="light" download><b>Light themed, print friendly</b><span>White background with a plain layout. Best for printing.</span></a>
+    <a class="cv-opt" href="Sripad_Kilikar_Resume_Dark.pdf" data-resume="dark" download><b>Dark themed, easy on the eye</b><span>Dark background with light text. Best on screen.</span></a>
   </div>
 </dialog>
 <style>
@@ -390,7 +390,10 @@
   });
   d.querySelector('[data-cv-close]').addEventListener('click',function(){d.close()});
   d.addEventListener('click',function(e){if(e.target===d)d.close()});
-  d.querySelectorAll('.cv-opt').forEach(function(a){a.addEventListener('click',function(){d.close()})});
+  d.querySelectorAll('.cv-opt').forEach(function(a){a.addEventListener('click',function(){
+    if(typeof gtag==='function'){gtag('event','resume_download',{resume_version:a.getAttribute('data-resume')})}
+    d.close();
+  })});
 })();
 </script>
 </div>
