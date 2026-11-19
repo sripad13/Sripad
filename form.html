@@ -79,22 +79,35 @@ h1{font-family:var(--display);font-weight:800;font-size:clamp(40px,6vw,64px);lin
  toggle.addEventListener('click',()=>{const next=root.dataset.theme==='dark'?'light':'dark';root.dataset.theme=next;try{localStorage.setItem('sk-theme',next)}catch(e){}});
 
  // Sends to the same response sheet as the old Google Form.
+ // Apps Script web app URL (see scripts/contact-form.gs). Until it is set, messages go straight to the Google Form.
+ const SCRIPT_URL='';
  const ENDPOINT='https://docs.google.com/forms/d/e/1FAIpQLScHgh8Q-Ls5zfvz0ktgKg1WLhbBu7xBwRSvC0_1UCD_PNFoLg/formResponse';
+ const KEYS={'entry.581627351':'name','entry.1393482793':'email','entry.1542931193':'company','entry.1928615175':'message'};
  const form=document.getElementById('contact-form'), status=form.querySelector('.status'), send=form.querySelector('.send');
  form.addEventListener('submit', async (e)=>{
   e.preventDefault();
   if(!form.reportValidity()) return;
   const data=new FormData(form);
   if(data.get('website')) return; // honeypot: bots fill hidden fields
-  data.delete('website');
   send.disabled=true; status.textContent='Sending…';
   try{
-   // no-cors: Google does not allow reading the reply, so success is assumed once the request is sent
-   await fetch(ENDPOINT,{method:'POST',mode:'no-cors',body:new URLSearchParams(data)});
+   if(SCRIPT_URL){
+    const body={};
+    for(const [k,field] of Object.entries(KEYS)) body[field]=data.get(k)||'';
+    const res=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(body)}); // plain-text body: no CORS preflight
+    const out=await res.json();
+    if(!out.ok) throw new Error(out.error||'failed');
+   }else{
+    data.delete('website');
+    // no-cors: Google does not allow reading the reply, so success is assumed once the request is sent
+    await fetch(ENDPOINT,{method:'POST',mode:'no-cors',body:new URLSearchParams(data)});
+   }
    form.reset();
    status.textContent='Thanks, your message has been sent.';
   }catch(err){
-   status.textContent='Something went wrong. Please try again in a little while.';
+   status.textContent=err.message==='invalid'
+    ? 'Please check your details and try again.'
+    : 'Something went wrong. Please try again in a little while.';
   }finally{
    send.disabled=false;
   }
